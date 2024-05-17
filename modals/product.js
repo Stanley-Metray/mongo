@@ -1,5 +1,5 @@
 const getDb = require("../connection/database").getDb;
-const mongodb = require('mongodb');
+const {ObjectId} = require('mongodb');
 
 class Product
 {
@@ -57,10 +57,10 @@ class Product
         });
     }
 
-    static deleteProduct(title)
+    static deleteProduct(id)
     {
         const db = getDb();
-        return db.collection('products').deleteOne({title:title})
+        return db.collection('products').deleteOne({_id: new ObjectId(id)})
         .then((result)=>{
             return result;
         })
