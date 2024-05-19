@@ -9,8 +9,10 @@
   "author": "\"Stanley Metray\"",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "mongodb": "^6.6.2",
+    "mongoose": "^8.4.0",
     "sequelize": "^6.37.3"
   }
 }
