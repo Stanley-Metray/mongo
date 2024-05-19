@@ -2,6 +2,7 @@ const mongoConnect = require('./connection/database');
 const express = require('express');
 const Product = require('./modals/product');
 const User = require('./modals/user');
+const Order = require("./modals/orders");
 console.clear();
 const app = express();
 
@@ -54,7 +55,7 @@ app.get('/get-user', async (req, res) => {
 
 app.get('/add-to-cart', async(req, res)=>{
     try {
-        const result = await User.addToCart("6648d3483796011f840dcf79", "6649a00cd33c637daa9eb0bf", 10);
+        const result = await User.addToCart("6648d3483796011f840dcf79", "6648d37140a95d4b7ef7a835", 8);
         res.json(result);
     } catch (error) {
         console.log(error);
@@ -80,7 +81,28 @@ app.get('/remove-from-cart', async (req, res)=>{
     } catch (error) {
         console.log(error);
     }
-})
+});
+
+app.get('/place-order', async(req, res)=>{
+    try {
+        const user = await User.findByUserId("6648d3483796011f840dcf79");
+        if(user && user.cart.length>0)
+        {
+            const order = await new Order(user._id, user.cart).save();
+            if(order.acknowledged)
+            {
+                await User.emptyCart(user._id);
+                res.json({orderPlaced:true});
+            }
+            else
+                res.json({orderPlaced:false});
+        }
+        else
+            res.json({orderPlaced:false});
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 mongoConnect.connect(() => {
     app.listen(3000, (err) => {

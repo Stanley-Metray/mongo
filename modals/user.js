@@ -73,6 +73,16 @@ class User {
             console.log(error);
         }
     }
+
+    static emptyCart = async (userId)=>{
+        try {
+            userId = new ObjectId(userId);
+            const db = getDb();
+            return await db.collection('users').updateOne({_id:userId}, {$set :{cart:[]}});
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = User;
