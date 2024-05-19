@@ -11,7 +11,7 @@ app.get("/", async (req, res) => {
 
         const user = await User.findByUserId(userId);
         
-        const product = new Product("Luggauge Bag", 8000, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nulla aliquid quas molestiae nisi quasi neque dolore alias nostrum explicabo", "https://laptop-stanley-500gg.com", user._id);
+        const product = new Product("Mobile", 25000, "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nulla aliquid quas molestiae nisi quasi neque dolore alias nostrum explicabo", "https://laptop-stanley-500gg.com", user._id);
         const createdProduct = await product.save();
         res.json(createdProduct);
 
@@ -54,11 +54,31 @@ app.get('/get-user', async (req, res) => {
 
 app.get('/add-to-cart', async(req, res)=>{
     try {
-        const result = await User.addToCart("6648d3483796011f840dcf79", "66498dc3e41f8b89afaa4b91");
+        const result = await User.addToCart("6648d3483796011f840dcf79", "6649a00cd33c637daa9eb0bf", 10);
         res.json(result);
     } catch (error) {
         console.log(error);
         res.send(error);
+    }
+})
+
+app.get('/get-cart', async (req, res)=>{
+    try {
+        const cart = await User.getCart("6648d3483796011f840dcf79");
+        res.json(cart);
+        
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.get('/remove-from-cart', async (req, res)=>{
+    try {
+        const cart = await User.removeFromCart("6648d3483796011f840dcf79", "6649a00cd33c637daa9eb0bf");
+        res.json(cart);
+        
+    } catch (error) {
+        console.log(error);
     }
 })
 
