@@ -3,12 +3,13 @@ const {ObjectId} = require('mongodb');
 
 class Product
 {
-    constructor(title, price, description, imageurl)
+    constructor(title, price, description, imageurl, userdId)
     {
         this.title=title;
         this.price=price;
         this.description=description;
         this.imageurl=imageurl;
+        this.userId = userdId
     }
 
     save()
@@ -16,7 +17,7 @@ class Product
         const db = getDb();
         return db.collection('products').insertOne(this)
         .then((result)=>{
-            console.log(result);
+            return result;
         })
         .catch((err)=>{
             console.log(err);
