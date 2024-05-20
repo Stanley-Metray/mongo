@@ -11,4 +11,6 @@ UserRouter.post('/add-to-cart', UserController.postAddToCart);
 
 UserRouter.get('/get-cart', UserController.getCart);
 
+UserRouter.get('/remove-product-from-cart', UserController.removeProductFromCart);
+
 module.exports = UserRouter;

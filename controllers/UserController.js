@@ -45,8 +45,21 @@ module.exports.postAddToCart = async (req, res)=>{
 module.exports.getCart = async (req, res)=>{
     try {
         const result = await User.findById({_id : req.query.id})
-        .select('cart')
-        .populate('cart.productId');
+        .select('cart -_id')
+        .populate('cart.productId', 'title price description -_id');
+        if (result)
+            res.json({ done: true, cart : result.cart });
+        else
+            res.json({ done: false, message: "Something went wrong" });
+    } catch (error) {
+        res.json({ done: false, message: "Something went wrong" });
+        console.log(error);
+    }
+}
+
+module.exports.removeProductFromCart = async (req, res)=>{
+    try {
+        const result = await User.findByIdAndUpdate({_id : req.query.id}, {$pull : {cart : {productId : req.query.productId}}}, {new:true});
         if (result)
             res.json({ done: true, cart : result.cart });
         else
