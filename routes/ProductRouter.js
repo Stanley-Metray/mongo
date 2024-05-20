@@ -69,9 +69,6 @@ ProductRouter.delete('/delete-product', async (req, res) => {
         res.json({ done: false, message: "Something went wrong" });
         console.log(error);
     }
-})
-
-
-
+});
 
 module.exports = ProductRouter;
